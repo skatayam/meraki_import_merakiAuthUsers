@@ -1,0 +1,27 @@
+{
+  "confirmed": true,
+  "synchronous": true,
+  "actions": [
+  {%- set networkId = nw %}
+  {%- for rule in data %}
+  {
+    "resource": "/networks/{{networkId}}/merakiAuthUsers",
+    "operation": "create",
+    "body": {
+        "email": "{{rule.email}}",
+        "name": "{{rule.name}}",
+        "password": "{{rule.password}}",
+        "authorizations": [
+         {
+            "ssidNumber": "0",
+            "expiresAt": "Never"
+         }
+         ]
+    }
+  }
+  {%- if loop.index < data|length -%}
+  ,
+  {%- endif %}
+  {%- endfor %}
+  ]
+}
